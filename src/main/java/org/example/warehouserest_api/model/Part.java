@@ -1,9 +1,7 @@
 package org.example.warehouserest_api.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.EmbeddedId;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 
@@ -24,6 +22,12 @@ public class Part {
     @Column(nullable = false)
     @Min(value = 0, message = "Quantity cannot be negative")
     private int quantity;
+
+    // Version field for optimistic locking
+    @Version
+    @Column(nullable = false)
+    @JsonIgnore
+    private Long version;
 
     // Default constructor required by JPA
     public Part() {
@@ -50,5 +54,13 @@ public class Part {
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
+    }
+
+    public Long getVersion() {
+        return version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
     }
 }
